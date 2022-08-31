@@ -4,26 +4,9 @@ Lisp utilities. Currently just the one: =git-graft=.
 
 * Commands
 
-Follow the installation steps and add the binary to your path. You can invoke commands as sub commands of the binary, e.g.:
+Make sure you’ve followed the [[#installation][Installation]] instructions.
 
-#+begin_src shell
-hly-git-tools git-graft foo bar
-#+end_src
-
-Or you can (sym)link the binary to its command name, add /that/ to your PATH, and invoke it directly:
-
-#+begin_src shell
-(
-  cd "$(dirname "$(which hly-git-tools)")"
-  ln -s hly-git-tools git-graft
-)
-
-git graft foo bar
-#+end_src
-
-This uses the git convention that any executable called =git-something= on your path will be picked up by the top-level =git= tool and exposed as =git something=.
-
-** =git-graft=
+** git graft
 
 Documentation:
 
@@ -79,6 +62,9 @@ it.
 #+end_example
 
 * Installation
+:PROPERTIES:
+:CUSTOM_ID: installation
+:END:
 ** Native
 
 You probably want this:
@@ -98,6 +84,27 @@ To recompile the source later, you only need to run the last step.
 
 I’ve tested this on Mac, it should work on Linux, and maybe even on Windows? Let
 me know if it works for you.
+
+*** Advanced & cool: directly call as git subcommand
+
+After adding the tool to your path, you can invoke commands as sub commands of the binary, e.g.:
+
+#+begin_src shell
+hly-git-tools git-graft foo bar
+#+end_src
+
+But if you (sym)link the binary to a command name and add /that/ to your PATH, you can invoke the command directly as a git subcommand:
+
+#+begin_src shell
+(
+  cd "$(dirname "$(which hly-git-tools)")"
+  ln -s hly-git-tools git-graft
+)
+
+git graft foo bar
+#+end_src
+
+This uses the git convention that any executable called =git-something= on your path will be picked up by the top-level =git= tool and exposed as =git something=.
 
 ** Docker
 
