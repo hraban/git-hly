@@ -79,19 +79,19 @@ NIL
 
 (defun print-undo-branch (b)
   "Print what it would take to reset this branch to its existing spot."
-  (format T "# git branch -f ~A ~A~%" b (rev-parse b)))
+  (format T ">&2 echo 'git branch -f ~A ~A'~%" b (rev-parse b)))
 
 (defun print-undo (bs)
-  (format T "# Run these commands to undo the entire operation:~%")
+  (format T ">&2 echo '# Run these commands to undo the entire operation:'~%")
   (mapc #'print-undo-branch bs)
-  (format T "#~%"))
+  (format T ">&2 echo~%"))
 
 (defun git-parent (ref)
   (format NIL "~A^" ref))
 
 (defun print-push-all (branches)
-  (format T "# To push all to origin:
-# git push --force-with-lease origin ~{~S:~:*~S~^ ~}~%" branches))
+  (format T ">&2 echo '# To push all to origin:
+git push --force-with-lease origin ~{~S:~:*~S~^ ~}'~%" branches))
 
 (define-cmd git-graft (root onto)
   "Print a chain of commands to move an entire subtree of git branches.
@@ -154,8 +154,9 @@ it.
                           (sort <> #'ancestor-p))))
       ;; Print all branch names to allow user to copy/paste into a git push
       ;; --force-with-lease origin ... line after all is done.
-      (format T "# rebasing branches: ~{~A ~}~%" branches)
+      (format T ">&2 echo '# rebasing branches: ~{~A~^ ~}'~%" branches)
       (print-undo branches)
+      (format T "set -x~%")
       (do-tree
         #'ancestor-p
         from
@@ -182,8 +183,15 @@ it.
             ;; this is just (git-move branch (rev-parse base) base).
             (git-move branch (rev-parse base) onto)))
         branches)
-      (print-push-all branches)))
-  (format T "echo Done.~%"))
+      ;; The do-tree also prints a trailing "&&" for every command, to create a
+      ;; long AND-chain of commands that only get executed if the last one
+      ;; succeeded. This leaves one trailing && which must be followed by a
+      ;; valid command. That’s what this ‘echo Done’ is really for. It must be a
+      ;; command that can be safely ignored when there is failure, so e.g. set
+      ;; +x can’t be it.
+      (format T ">&2 echo '# Done.'~%")
+      (format T "set +x~%")
+      (print-push-all branches))))
 
 ;; Copyright © 2022  Hraban Luyat
 ;;
