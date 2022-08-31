@@ -1,0 +1,53 @@
+* Git utilities by Hraban Luyat
+
+** Native
+
+You probably want this:
+
+1. Install [[https://www.sbcl.org/][SBCL]]:
+   =$ brew install sbcl=
+2. Install [[https://www.quicklisp.org/][Quicklisp]] (follow the full instructions, up to and including =(ql:add-to-init-file)=)
+3. From this directory:
+   =$ mkdir -p ~/quicklisp/local-projects && ln -fs "$PWD/src/" ~/quicklisp/local-projects/hly-git-utils=
+4. =$ ./ql-install-deps.lisp=
+5. =$ ./build.lisp=
+
+You now have a binary =hly-git-utils= in the =./build/= directory which you can
+move wherever you want and run, even without Lisp installed.
+
+To recompile the source later, you only need to run the last step.
+
+I’ve tested this on Mac, it should work on Linux, and maybe even on Windows? Let
+me know if it works for you.
+
+** Docker
+
+If you insist on Docker:
+
+#+begin_src shell
+docker build -t hly-git-utils .
+#+end_src
+
+Pros: easy peasy.
+
+Cons: you have to run it dockerized. That’s slow and annoying, especially on Mac
+and Windows.
+
+* License
+
+hly-git-tools - Git utilities
+Copyright © 2022  Hraban Luyat
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, version 3 of the License.
+
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
