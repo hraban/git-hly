@@ -2,11 +2,11 @@
 
 (defun main (&optional argv)
   "Argv follows buildapp convention: single list containing full arg"
-  (let ((args (if argv
-                  ;; Ignore argv0, the binary name
-                  (rest argv)
-                  (uiop:command-line-arguments))))
-    (cmd (first args) (rest args))))
+  (let* ((argv (or argv (uiop:raw-command-line-arguments)))
+         (bin (-> argv first file-namestring)))
+    (if (string= bin "hly-git-tools")
+        (cmd (cadr argv) (cddr argv))
+        (cmd bin (rest argv)))))
 
 ;; Copyright © 2022  Hraban Luyat
 ;;
