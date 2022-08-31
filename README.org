@@ -65,6 +65,24 @@ The argument to git-graft, the root, is *inclusive*. This is at odds with git co
 :PROPERTIES:
 :CUSTOM_ID: installation
 :END:
+** Docker
+:PROPERTIES:
+:CUSTOM_ID: docker
+:END:
+
+#+begin_src shell :eval never-export
+docker build -t hly-git-tools .
+#+end_src
+
+- Pros: easy peasy.
+- Cons: you have to run it dockerized. That’s slow and annoying, especially on Mac and Windows.
+
+After building the image, run:
+
+#+begin_src shell :eval never
+docker run --rm -v "$PWD":/data hly-git-tools git-graft ... | bash
+#+end_src
+
 ** Native
 
 You probably want this (Mac & Linux, maybe also Windows?):
@@ -102,19 +120,6 @@ git graft foo bar
 #+end_src
 
 This uses the git convention that any executable called =git-something= on your path will be picked up by the top-level =git= tool and exposed as =git something=.
-
-** Docker
-
-If you insist on Docker:
-
-#+begin_src shell :eval never-export
-docker build -t hly-git-tools .
-#+end_src
-
-Pros: easy peasy.
-
-Cons: you have to run it dockerized. That’s slow and annoying, especially on Mac
-and Windows.
 
 * License
 
