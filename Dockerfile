@@ -54,12 +54,19 @@ FROM debian:buster
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install OS managed dependencies
+# Install OS managed dependencies for the app
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        git \
+        && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN useradd -d /ql -m ql
 
 USER ql
 
-WORKDIR /app
+WORKDIR /data
 
 COPY --from=build /app/dist/hly-git-tools /app/hly-git-tools
 
