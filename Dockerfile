@@ -26,19 +26,6 @@ RUN gpg --verify quicklisp.lisp.asc quicklisp.lisp
 RUN sbcl --load quicklisp.lisp \
          --eval '(quicklisp-quickstart:install)'
 
-# And Docker, for the docker-cli, which is super useful. Install the whole
-# jigmajog in the build image, and just copy out the final binary 🤷‍♀️ it’s go so
-# it’s statically linked, anyway. Easiest method by far.
-RUN apt-get install -y --no-install-recommends \
-        ca-certificates \
-        lsb-release
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
-    echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends docker-ce-cli
-
 # Install QL dependencies in a separate layer (for caching)
 COPY src/hly-git-tools.asd ./quicklisp/local-projects/hly-git-tools/hly-git-tools.asd
 RUN ./ql-install-deps.lisp
