@@ -12,7 +12,7 @@ You probably want this:
 4. =$ ./ql-install-deps.lisp=
 5. =$ ./build.lisp=
 
-You now have a binary =hly-git-utils= in the =./build/= directory which you can
+You now have a binary =hly-git-utils= in the =./dist/= directory which you can
 move wherever you want and run, even without Lisp installed.
 
 To recompile the source later, you only need to run the last step.
