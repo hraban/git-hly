@@ -11,13 +11,23 @@ Lisp utilities. Currently just the one: =git-graft=.
 *** Usage
 
 #+begin_src shell :eval never
-git-graft ROOT ONTO
+git graft ROOT ONTO
 #+end_src
 
 - =ROOT= :: the first commit under (and including) which all local branches will be selected.
 - =ONTO= :: the commit onto which the subtree will be moved.
 
 This git-graft won’t actually run the commands: it just prints them to stdout. You’re meant to manually copy & paste them to your shell. This is a temporary hack to allow a human to sanity check the results, and it provides rollback.
+
+**** Advanced
+
+Once you get comfortable with the tool, you can pipe directly to bash:
+
+#+begin_src shell :eval never
+git graft ROOT ONTO | bash
+#+end_src
+
+This will print undo commands, so in case of trouble you can always rollback.
 
 *** Example
 
