@@ -33,7 +33,7 @@ For in-depth help, pass --help to a subcommand.
   (fmt-err-and-exit "No such command: ~A~%~%~A" name (usage-str)))
 
 (defun help-args-p (args)
-  (or (equal args '("-h"))
+  (or (member args '(("-h") ("help")) :test #'equal)
       (member "--help" args :test #'equal)))
 
 (declaim (ftype (function ((or symbol string)) t) print-help))
