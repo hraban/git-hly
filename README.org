@@ -77,14 +77,14 @@ You probably want this (Mac & Linux, maybe also Windows?):
 
   #+begin_src shell :eval never-export
   mkdir -p ~/quicklisp/local-projects
-  ln -fs "$PWD/src/" ~/quicklisp/local-projects/hly-git-utils
+  ln -fs "$PWD/src/" ~/quicklisp/local-projects/hly-git-tools
   ./ql-install-deps.lisp
   ./build.lisp
   printf 'export PATH="$PATH:%s/dist/"\n' "$PWD" >> ~/.bashrc
   source ~/.bashrc
   #+end_src
 
-You now have a binary =hly-git-utils= in the =./dist/= directory which you can
+You now have a binary =hly-git-tools= in the =./dist/= directory which you can
 move wherever you want and run, even without Lisp installed.
 
 To recompile the source later, you only need to run =./build.lisp=.
@@ -108,7 +108,7 @@ This uses the git convention that any executable called =git-something= on your 
 If you insist on Docker:
 
 #+begin_src shell :eval never-export
-docker build -t hly-git-utils .
+docker build -t hly-git-tools .
 #+end_src
 
 Pros: easy peasy.
