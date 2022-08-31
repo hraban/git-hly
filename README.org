@@ -67,25 +67,23 @@ it.
 :END:
 ** Native
 
-You probably want this:
+You probably want this (Mac & Linux, maybe also Windows?):
 
 1. Install [[https://www.sbcl.org/][SBCL]]:
    =$ brew install sbcl=
 2. Install [[https://www.quicklisp.org/][Quicklisp]] (follow the full instructions, up to and including =(ql:add-to-init-file)=)
 3. From this directory:
+
    =$ mkdir -p ~/quicklisp/local-projects && ln -fs "$PWD/src/" ~/quicklisp/local-projects/hly-git-utils=
 4. =$ ./ql-install-deps.lisp=
 5. =$ ./build.lisp=
+6. =$ printf 'export PATH="$PATH:%s/dist/"\n' "$PWD" >> ~/.bashrc=
+7. =$ source ~/.bashrc=
 
 You now have a binary =hly-git-utils= in the =./dist/= directory which you can
 move wherever you want and run, even without Lisp installed.
 
-To recompile the source later, you only need to run the last step.
-
-I’ve tested this on Mac, it should work on Linux, and maybe even on Windows? Let
-me know if it works for you.
-
-*** Advanced & cool: directly call as git subcommand
+To recompile the source later, you only need to run step 5.
 
 After adding the tool to your path, you can invoke commands as sub commands of the binary, e.g.:
 
@@ -93,14 +91,9 @@ After adding the tool to your path, you can invoke commands as sub commands of t
 hly-git-tools git-graft foo bar
 #+end_src
 
-But if you (sym)link the binary to a command name and add /that/ to your PATH, you can invoke the command directly as a git subcommand:
+But you can also directly call them as git subcommands:
 
 #+begin_src shell
-(
-  cd "$(dirname "$(which hly-git-tools)")"
-  ln -s hly-git-tools git-graft
-)
-
 git graft foo bar
 #+end_src
 

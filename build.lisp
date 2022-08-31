@@ -20,6 +20,24 @@
 (sb-ext:disable-debugger)
 
 (load "src/hly-git-tools.asd")
+
+;; An incestuous twist: also load the command, to get all binary names, to
+;; automatically create symlinks for every command. This really is a massive
+;; hack, also registering this as a pre-image-dump hook, because ideally I’d
+;; want to run this /after/ building but that’s just too much work. Because asdf
+;; program-op kills SBCL. Whatever. 🤷‍♀️ I don’t mind this too much because in
+;; the end, I need all these systems loaded in the main program, too, so it
+;; doesn’t add any noise to the binary.
+(asdf:load-system "hly-git-tools")
+(asdf:load-system "inferior-shell")
+(asdf:load-system "uiop")
+(uiop:register-image-dump-hook
+ (lambda ()
+   (dolist (cmd (hly-git-tools::cmd-names))
+     (uiop:with-current-directory ("./dist/")
+       (inferior-shell:run `(ln -sf "hly-git-tools" ,(string-downcase cmd)))))))
+
+;; Build the binary
 (asdf:make "hly-git-tools")
 
 ;; Copyright © 2022  Hraban Luyat
