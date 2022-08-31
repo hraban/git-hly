@@ -63,7 +63,7 @@ USER ql
 
 WORKDIR /app
 
-COPY --from=build /app/build/hly-git-tools /app/hly-git-tools
+COPY --from=build /app/dist/hly-git-tools /app/hly-git-tools
 
 ENTRYPOINT ["/app/hly-git-tools"]
 
