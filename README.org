@@ -28,9 +28,9 @@ ONTO: the commit onto which the subtree will be moved.
 Example: say after a git fetch, you end up with:
 
   A -> B -> master -> C -> D -> origin/master
-              \\
+              \
                 --> E -> branch1 -> F -> branch2
-                           \\
+                           \
                              -----> G -> branch3
 
 Execute this:
@@ -41,7 +41,7 @@ And you will get a bunch of git commands on stdout. Execute them all, and you
 should end up with:
 
   ... -> D -> origin/master -> E -> branch1 -> F -> branch2
-                                      \\
+                                      \
                                         -----> G -> branch3
 
 Every local branch under (and including) branch1 will be moved, so be careful
@@ -49,9 +49,9 @@ choosing something like (e.g.) master. It will work if all branches under master
 are indeed feature branches that you 'own', but if you locally checked out
 someone else's branch, it will also be rebased.
 
-Git-graft also prints \"undo\" commands, commented out. These are not expected
-to be necessary for normal operation, but if something goes wrong midway through
-a big graft, you can use those commands to go back to the pre-graft state.
+Git-graft also prints "undo" commands, commented out. These are not expected to
+be necessary for normal operation, but if something goes wrong midway through a
+big graft, you can use those commands to go back to the pre-graft state.
 
 The argument to git-graft, the root, is *inclusive*. This is at odds with git
 conventions, where you normally specify a commit's 'parent', under which all
