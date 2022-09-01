@@ -1,7 +1,12 @@
 (in-package :hly-git-tools)
 
-(defun get-branches ()
-  (sh/lines '(git branch
+(defun get-child-branches (parent)
+  "Get all child branches for this parent ref.
+
+If the parent is itself a branch, include it.
+"
+  (sh/lines `(git branch
+                  --contains ,parent
                   --no-color
                   --format "%(refname:lstrip=2)")))
 
@@ -149,9 +154,9 @@ it.
          ;; In git speak, a rebase is "exclusive" from the "from", iow it starts
          ;; at "from + 1", iow "only the from's children, not the from itself".
          (from (git-parent root)))
-    (let ((branches (-<>> (get-branches)
-                          (keep-ancestry root)
-                          (sort <> #'ancestor-p))))
+    (let ((branches (-> root
+                        get-child-branches
+                        (sort #'ancestor-p))))
       ;; Print all branch names to allow user to copy/paste into a git push
       ;; --force-with-lease origin ... line after all is done.
       (format T ">&2 echo '# rebasing branches: ~{~A~^ ~}'~%" branches)
