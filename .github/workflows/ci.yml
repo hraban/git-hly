@@ -2,8 +2,7 @@ name: "CI"
 
 on:
   push:
-    branches:
-      - 'master'
+    branches: ["**"]
 
 jobs:
   native-mac:
@@ -35,6 +34,7 @@ jobs:
   docker:
     name: "Build & Publish Docker image"
     runs-on: ubuntu-latest
+    if: ${{ github.ref_type == 'branch' && github.ref == 'refs/heads/master' }}
     steps:
       -
         name: Set up QEMU
