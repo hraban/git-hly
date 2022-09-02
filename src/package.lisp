@@ -2,6 +2,7 @@
   (:use :arrow-macros
         :cl)
   (:export main)
+  (:import-from :trivia "MATCH")
   (:local-nicknames (:alex :alexandria)
                     (:sh   :inferior-shell)))
 
