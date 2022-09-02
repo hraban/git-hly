@@ -72,9 +72,6 @@ NIL
 (defun rev-parse (ref)
   (sh/ss `(git rev-parse ,ref)))
 
-(defun keep-ancestry (parent refs)
-  (remove-if-not (lambda (r) (ancestor-p parent r)) refs))
-
 (defun git-move (branch from onto)
   "Echo the operations necessary to rebase a branch to a new parent."
   (format T "git checkout \"~A\" && \\~%git rebase --onto \"~A\" \"~A\" && \\~%"
