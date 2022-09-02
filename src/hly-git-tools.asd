@@ -8,6 +8,7 @@
      :depends-on (:alexandria
                   :arrow-macros
                   :inferior-shell
+                  :trivia
                   :uiop)
      :components ((:file "package")
                   (:file "os")
