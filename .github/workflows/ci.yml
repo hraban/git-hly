@@ -15,7 +15,7 @@ jobs:
       -
         name: Download Quicklisp
         run: |
-          curl --remote-name-all https://beta.quicklisp.org.lisp{,.asc}
+          curl --remote-name-all https://beta.quicklisp.org/quicklisp.lisp{,.asc}
           gpg --import quicklisp-release-key.txt
           gpg --verify quicklisp.lisp{.asc,}
       -
