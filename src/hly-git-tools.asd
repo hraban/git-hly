@@ -14,4 +14,5 @@
                   (:file "os")
                   (:file "cmd")
                   (:file "cmd-git-graft")
+                  (:file "cmd-git-pullfetch")
                   (:file "app")))
