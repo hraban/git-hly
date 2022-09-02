@@ -1,10 +1,16 @@
 * Git utilities by Hraban Luyat
 
-Lisp utilities. Currently just the one: =git-graft=.
+Lisp utilities.
+
+- [[#git-graft][git graft]]: cut & paste an entire subtree of git branches
+- [[#git-pullfetch][git pullfetch]]: git fetch and pull combo
 
 * Commands
 
 ** git graft: cut & paste an entire subtree of git branches
+:PROPERTIES:
+:CUSTOM_ID: git-graft
+:END:
 
 *Typical use case:* you have a long list of PRs which depend on each other; when origin/master is updated, you want to rebase all of them to the new origin/master. Instead of rebasing each branch individually, you want to “snip” the bottom off the old master, and “glue” it back onto the new one.
 
@@ -60,6 +66,19 @@ Every local branch under (and including) branch1 will be moved, so be careful ch
 Git-graft also prints “undo” commands, commented out. These are not expected to be necessary for normal operation, but if something goes wrong midway through a big graft, you can use those commands to go back to the pre-graft state.
 
 The argument to git-graft, the root, is *inclusive*. This is at odds with git conventions, where you normally specify a commit's “parent”, under which all relevant commits are found. The reason is that sometimes, e.g. the example above, choosing the parent can lead to too many branches being included: you'd get origin/master, and all potential other local branches already ported onto it.
+
+** git pullfetch: git fetch and git pull combo
+:PROPERTIES:
+:CUSTOM_ID: git-pullfetch
+:END:
+
+When cooperating with others on a busy repo this command helps “pull all changes.” Update master if it’s been updated, purge deleted branches, etc.
+
+Usage:
+
+#+begin_src shell :eval never
+git pullfetch
+#+end_src
 
 * Installation
 :PROPERTIES:
