@@ -19,8 +19,7 @@ COPY ql-install-deps.lisp quicklisp-release-key.txt ./
 # Install Quicklisp
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends curl gpg
-RUN curl -O https://beta.quicklisp.org/quicklisp.lisp
-RUN curl -O https://beta.quicklisp.org/quicklisp.lisp.asc
+RUN curl --remote-name-all https://beta.quicklisp.org/quicklisp.lisp{,.asc}
 RUN gpg --import quicklisp-release-key.txt
 RUN gpg --verify quicklisp.lisp.asc quicklisp.lisp
 RUN sbcl --load quicklisp.lisp \

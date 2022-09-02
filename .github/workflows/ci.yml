@@ -6,7 +6,34 @@ on:
       - 'master'
 
 jobs:
+  native-mac:
+    name: "Build native Mac image"
+    runs-on: macos-latest
+    steps:
+      -
+        name: Install OS level dependencies
+        run: brew install sbcl curl gpg
+      -
+        name: Download Quicklisp
+        run: |
+          curl --remote-name-all https://beta.quicklisp.org.lisp{,.asc}
+          gpg --import quicklisp-release-key.txt
+          gpg --verify quicklisp.lisp{.asc,}
+      -
+        name: Install Quicklisp
+        run: sbcl --load quicklisp.lisp --eval '(quicklisp-quickstart:install)'
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Install Lisp dependencies
+        run: ./ql-install-deps.lisp
+      -
+        name: Compile
+        run: ./ql-install-deps.lisp
+
   docker:
+    name: "Build & Publish Docker image"
     runs-on: ubuntu-latest
     steps:
       -
