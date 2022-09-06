@@ -16,9 +16,9 @@
   "Smart pull & fetch as much as possible."
   (let ((master-b (sh/ss '(git config init.defaultBranch)))
         (current-b (current-branch)))
-    (when (and (sh/no-err run '(git fetch --prune))
-               (sh/no-err run '(git commit-graph write --append))
-               (string/= current-b master-b))
+    (sh run '(and (git fetch --prune)
+                  (git commit-graph write --append)))
+    (when (string/= current-b master-b)
       (let ((master-r (remote-tracking master-b)))
         (sh run `(git branch --force ,master-b ,master-r))))))
 
