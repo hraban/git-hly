@@ -102,6 +102,24 @@ Cons:
 - Slow and annoying, especially on Mac and Windows.
 - Doesn’t integrate with the =git= tool, so you can’t do e.g. =git graft ...=, unless you install a trampoline script.
 
+** Nix
+
+This is your best option, if you have Nix installed:
+
+#+begin_src shell
+nix-build
+#+end_src
+
+The binary and symlinks are available in the =result= directory.
+
+I don’t know enough Nix to tell you the proper way to install this system wide. This works though:
+
+#+begin_src shell
+printf 'export PATH="$PATH:%s/result/"\n' "$PWD" >> ~/.bashrc
+#+end_src
+
+🤷‍♀️
+
 ** Native
 
 If you have the stomach for it, this yields much better results. Instructions for Mac, but it should be fairly similar on Linux and Windows.
