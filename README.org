@@ -122,7 +122,7 @@ printf 'export PATH="$PATH:%s/result/"\n' "$PWD" >> ~/.bashrc
 
 ** Native
 
-If you have the stomach for it, this yields much better results. Instructions for Mac, but it should be fairly similar on Linux and Windows.
+If you have the stomach for it, this yields better results than Docker. These instructions are for Mac, but it should be fairly similar on Linux and Windows.
 
 1. Install [[https://www.sbcl.org/][SBCL]]:
 
