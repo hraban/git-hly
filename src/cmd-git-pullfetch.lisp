@@ -18,9 +18,10 @@
         (current-b (current-branch)))
     (sh run '(and (git fetch --prune)
                   (git commit-graph write --append)))
-    (when (string/= current-b master-b)
-      (let ((master-r (remote-tracking master-b)))
-        (sh run `(git branch --force ,master-b ,master-r))))))
+    (if (string= current-b master-b)
+        (sh run '(git merge --ff-only))
+        (let ((master-r (remote-tracking master-b)))
+          (sh run `(git branch --force ,master-b ,master-r))))))
 
 (define-cmd git-pullfetch ()
   ;; If any of the subprocesses caused an error, just return that directly
