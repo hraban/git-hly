@@ -1,5 +1,3 @@
-#!/usr/bin/env -S sbcl --noinform --script
-
 ;; Raw ASDF-only part of the build process. Call this if you know for sure ASDF
 ;; can find all dependencies.
 
