@@ -50,7 +50,7 @@ say after a git fetch, you end up with:
 Execute this:
 
 #+begin_src shell :eval never
-  git-graft E origin/master
+  git graft E origin/master
 #+end_src
 
 And you will get a bunch of git commands on stdout. Execute them all, and you should end up with:
@@ -147,7 +147,7 @@ To recompile the source later, you only need to run =./build.lisp=.
 After adding the tool to your path, you can invoke commands as sub commands of the binary, e.g.:
 
 #+begin_src shell :eval never
-git hly git-graft foo bar
+git hly graft foo bar
 #+end_src
 
 But you can also directly call them as git subcommands:

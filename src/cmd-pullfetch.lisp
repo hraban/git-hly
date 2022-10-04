@@ -12,7 +12,7 @@
   (let ((refname (format NIL "~A@{u}" b)))
     (sh/ss `(git rev-parse --abbrev-ref --symbolic-full-name ,refname))))
 
-(defun git-pullfetch-aux ()
+(defun pullfetch-aux ()
   "Smart pull & fetch as much as possible."
   (let ((master-b (sh/ss '(git config init.defaultBranch)))
         (current-b (current-branch)))
@@ -23,10 +23,10 @@
         (let ((master-r (remote-tracking master-b)))
           (sh run `(git branch --force ,master-b ,master-r))))))
 
-(define-cmd git-pullfetch ()
+(define-cmd pullfetch ()
   ;; If any of the subprocesses caused an error, just return that directly
   ;; without printing the entire lisp stack trace.
-  (handler-case (git-pullfetch-aux)
+  (handler-case (pullfetch-aux)
     (uiop:subprocess-error (c)
       (uiop:quit (uiop:subprocess-error-code c)))))
 
