@@ -1,4 +1,4 @@
-(defpackage :hly-git-tools
+(defpackage :git-hly
   (:use :arrow-macros
         :cl)
   (:export main)

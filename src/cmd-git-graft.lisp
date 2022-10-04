@@ -1,4 +1,4 @@
-(in-package :hly-git-tools)
+(in-package :git-hly)
 
 (defun get-child-branches (parent)
   "Get all child branches for this parent ref.

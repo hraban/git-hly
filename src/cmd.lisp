@@ -1,6 +1,6 @@
 ;; Subcommand handling, arg parsing
 
-(in-package :hly-git-tools)
+(in-package :git-hly)
 
 (defparameter *cmds* (make-hash-table :test 'equal))
 

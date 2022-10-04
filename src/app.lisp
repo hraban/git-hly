@@ -1,10 +1,10 @@
-(in-package :hly-git-tools)
+(in-package :git-hly)
 
 (defun main (&optional argv)
   "Argv follows buildapp convention: single list containing full arg"
   (let* ((argv (or argv (uiop:raw-command-line-arguments)))
          (bin (-> argv first file-namestring)))
-    (if (string= bin "hly-git-tools")
+    (if (string= bin "git-hly")
         (cmd (cadr argv) (cddr argv))
         (cmd bin (rest argv)))))
 
