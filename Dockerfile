@@ -27,7 +27,7 @@ RUN sbcl --load quicklisp.lisp \
          --eval '(quicklisp-quickstart:install)'
 
 # Install QL dependencies in a separate layer (for caching)
-COPY src/hly-git-tools.asd ./quicklisp/local-projects/hly-git-tools/hly-git-tools.asd
+COPY src/git-hly.asd ./quicklisp/local-projects/git-hly/git-hly.asd
 RUN ./ql-install-deps.lisp
 
 # Now compile the app
@@ -55,9 +55,9 @@ USER ql
 
 WORKDIR /data
 
-COPY --from=build /app/dist/hly-git-tools /app/hly-git-tools
+COPY --from=build /app/dist/git-hly /app/git-hly
 
-ENTRYPOINT ["/app/hly-git-tools"]
+ENTRYPOINT ["/app/git-hly"]
 
 CMD []
 

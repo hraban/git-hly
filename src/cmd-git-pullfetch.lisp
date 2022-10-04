@@ -1,4 +1,4 @@
-(in-package :hly-git-tools)
+(in-package :git-hly)
 
 (defun current-branch ()
   "Get current branch name, if any."

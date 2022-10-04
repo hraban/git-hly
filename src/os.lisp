@@ -1,6 +1,6 @@
 ;; Helper functions to interact with the OS or the outside world.
 
-(in-package :hly-git-tools)
+(in-package :git-hly)
 
 (defmacro sh (action &rest r)
   "Utility macro for shell actions for optional trace output.
