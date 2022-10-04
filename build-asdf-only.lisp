@@ -23,7 +23,7 @@
  (lambda ()
    (dolist (cmd (git-hly::cmd-names))
      (uiop:with-current-directory ("./dist/")
-       (inferior-shell:run `(ln -sf "git-hly" ,(string-downcase cmd)))))))
+       (inferior-shell:run `(ln -sf "git-hly" ,(format NIL "~(git-~A~)" cmd)))))))
 
 ;; Build the binary
 (asdf:make "git-hly")

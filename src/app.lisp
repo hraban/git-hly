@@ -2,11 +2,15 @@
 
 (defun main (&optional argv)
   "Argv follows buildapp convention: single list containing full arg"
-  (let* ((argv (or argv (uiop:raw-command-line-arguments)))
-         (bin (-> argv first file-namestring)))
-    (if (string= bin "git-hly")
-        (cmd (cadr argv) (cddr argv))
-        (cmd bin (rest argv)))))
+  (let* ((argv (or argv (uiop:raw-command-line-arguments))))
+    (trivia:match (-> argv first file-namestring)
+      ("git-hly"
+       (cmd (cadr argv) (cddr argv)))
+      (;; If the command name starts with “git-”, strip that prefix
+       (trivia.ppcre:ppcre "^git-(.*)" name)
+       (cmd name (rest argv)))
+      (name
+       (cmd name (rest argv))))))
 
 ;; Copyright © 2022  Hraban Luyat
 ;;

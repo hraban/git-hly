@@ -9,10 +9,11 @@
                   :arrow-macros
                   :inferior-shell
                   :trivia
+                  :trivia.ppcre
                   :uiop)
      :components ((:file "package")
                   (:file "os")
                   (:file "cmd")
-                  (:file "cmd-git-graft")
-                  (:file "cmd-git-pullfetch")
+                  (:file "cmd-graft")
+                  (:file "cmd-pullfetch")
                   (:file "app")))

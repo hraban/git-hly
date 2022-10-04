@@ -121,12 +121,12 @@ NIL
   (format T ">&2 echo '# To push all to origin:
 git push --force-with-lease origin ~{~S:~:*~S~^ ~}'~%" branches))
 
-(define-cmd git-graft (root onto)
+(define-cmd graft (root onto)
   "Print a chain of commands to move an entire subtree of git branches.
 
 Usage:
 
-  git-graft ROOT ONTO
+  git graft ROOT ONTO
 
 Move all branches that are a child of one commit, onto another commit, while
 maintaining the git commit tree structure.
@@ -146,7 +146,7 @@ Example: say after a git fetch, you end up with:
 
 Execute this:
 
-  git-graft E origin/master
+  git graft E origin/master
 
 And you will get a bunch of git commands on stdout. Execute them all, and you
 should end up with:
