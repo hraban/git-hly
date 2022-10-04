@@ -74,7 +74,33 @@ NIL
 
 (defun git-move (branch from onto)
   "Echo the operations necessary to rebase a branch to a new parent."
-  (format T "git checkout \"~A\" && \\~%git rebase --onto \"~A\" \"~A\" && \\~%"
+  ;; If we naively rebased every branch separately, branches that have a
+  ;; merge-base without its own branch name would get their entire hierarchy
+  ;; rebased separately, without honouring that common merge-base.
+  ;;
+  ;; Example (letters are commits without branch name):
+  ;;
+  ;; A --> B --> C --> branch1
+  ;;        \
+  ;;          -> D --> branch2
+  ;;
+  ;; In this case, branch1 and branch2 both get their own hierarchy rebased,
+  ;; meaning commits A and B and rebased twice. This seems fine, because they
+  ;; were the same commit, so their cherry-pick becomes the same diff, too. But!
+  ;; Part of the hash is the CommitterDate, which is the second-precision
+  ;; timestamp of when the rebase (cherry-pick) happens. If we left it up to
+  ;; chance, this would be a race condition.
+  ;;
+  ;; By forcing the committer date to something deterministic (in this case the
+  ;; author date, but anything would do), we ensure that the new form of the
+  ;; entire commit is deterministic, meaning the hash will be equal no matter
+  ;; how many times you cherry-pick it. This means that both branches will
+  ;; automatically have the same shared ancestry after grafting, as they did
+  ;; before. Neat. 👌
+  ;;
+  ;; This “hack” does a /lot/ of heavy lifting, because fixing this “properly”
+  ;; would be a nightmare.
+  (format T "git checkout \"~A\" && \\~%git rebase --committer-date-is-author-date --onto \"~A\" \"~A\" && \\~%"
           branch
           onto
           from))
