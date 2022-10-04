@@ -90,7 +90,13 @@ git pullfetch
 :END:
 
 #+begin_src shell :eval never
-docker run --rm -v "$PWD":/data luyat/git-tools git-graft ... | bash
+docker run --rm -v "$PWD":/data luyat/git-tools subcommand
+#+end_src
+
+To invoke the =graft= subcommand (which can be directly piped to bash):
+
+#+begin_src shell :eval never
+docker run --rm -v "$PWD":/data luyat/git-tools graft ... | bash
 #+end_src
 
 Pros:
