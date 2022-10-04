@@ -13,7 +13,7 @@ let lisp = lispPackages_new.sbclWithPackages (ps : [
     ]);
 in
 stdenv.mkDerivation rec {
-  pname = "hly-git-tools";
+  pname = "git-hly";
   version = "0.0.1";
   src = ./.;
   # SBCL likes having a writable home dir to cache .fasl files. Nix build runs
