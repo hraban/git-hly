@@ -171,9 +171,9 @@ above, choosing the parent can lead to too many branches being included: you'd
 get origin/master, and all potential other local branches already ported onto
 it.
 "
-         ;; rev-parse right now to fix this commit, because if it's a branch
+  (let* (;; rev-parse right now to fix this commit, because if it's a branch
          ;; name it might change during this operation.
-  (let* ((root (rev-parse root))
+         (root (rev-parse root))
          ;; In git speak, a rebase is "exclusive" from the "from", iow it starts
          ;; at "from + 1", iow "only the from's children, not the from itself".
          (from (git-parent root)))
@@ -202,7 +202,6 @@ it.
                           ;; to a different branch. To avoid this, use rev-parse
                           ;; at command generation time, to make sure the
                           ;; revision doesn’t change out from under us.
-
                           (rev-parse onto)
                           base)))
             ;; Rev-parse the old base now, because the base branch will
