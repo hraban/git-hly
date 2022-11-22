@@ -3,11 +3,9 @@
 
 (require :asdf)
 
-(push (merge-pathnames #p"src/") asdf:*central-registry*)
+(push (merge-pathnames #p"./") asdf:*central-registry*)
 
 (sb-ext:disable-debugger)
-
-(load "src/git-hly.asd")
 
 ;; An incestuous twist: also load the command, to get all binary names, to
 ;; automatically create symlinks for every command. This really is a massive
