@@ -1,4 +1,4 @@
-FROM clfoundation/sbcl:2.1.5 AS build
+FROM clfoundation/sbcl:2.2.4 AS build
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -27,7 +27,7 @@ RUN sbcl --load quicklisp.lisp \
          --eval '(quicklisp-quickstart:install)'
 
 # Install QL dependencies in a separate layer (for caching)
-COPY src/git-hly.asd ./quicklisp/local-projects/git-hly/git-hly.asd
+COPY git-hly.asd ./quicklisp/local-projects/git-hly/git-hly.asd
 RUN ./ql-install-deps.lisp
 
 # Now compile the app
