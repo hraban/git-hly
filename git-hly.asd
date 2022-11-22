@@ -3,7 +3,7 @@
      :version "0.1"
      :author "Hraban Luyat"
      :build-operation "program-op"
-     :build-pathname "../dist/git-hly"
+     :build-pathname "dist/git-hly"
      :entry-point "git-hly:main"
      :depends-on (:alexandria
                   :arrow-macros
@@ -11,9 +11,9 @@
                   :trivia
                   :trivia.ppcre
                   :uiop)
-     :components ((:file "package")
-                  (:file "os")
-                  (:file "cmd")
-                  (:file "cmd-graft")
-                  (:file "cmd-pullfetch")
-                  (:file "app")))
+     :components ((:file "src/package")
+                  (:file "src/os")
+                  (:file "src/cmd")
+                  (:file "src/cmd-graft")
+                  (:file "src/cmd-pullfetch")
+                  (:file "src/app")))

@@ -1,32 +1,35 @@
-# I’m a total Nix noob so this is probably in dire need of improvement.
-
 { pkgs ? import <nixpkgs> {} }:
 
-with pkgs;
+with rec {
+  hpkgs = import (
+    pkgs.fetchFromGitHub {
+      owner = "hraban";
+      repo = "nixpkgs";
+      rev = "1b768e079888cdea9e1ebed635168e1139c98130";
+      sha256 = "sha256-VhVKh0Vd+OtaGNhxv+6ZEyUCC7AalNJ7AQOcBlfbZrY=";
+    }
+  ) {};
+  lispPackagesLite = hpkgs.lispPackagesLite.override {
+    inherit pkgs;
+  };
+};
 
-let lisp = lispPackages_new.sbclWithPackages (ps : [
-      ps.alexandria
-      ps.arrow-macros
-      ps.inferior-shell
-      ps.trivia
-      ps.uiop
-    ]);
-in
-stdenv.mkDerivation rec {
+with lispPackagesLite;
+
+lispDerivation {
+  lispSystem = "git-hly";
   pname = "git-hly";
   version = "0.0.1";
-  src = ./.;
-  # SBCL likes having a writable home dir to cache .fasl files. Nix build runs
-  # with a non-existing homedir. I’m sure we could tell either one not to do
-  # that. Or we can just use the current (tmp) dir as HOME, which will
-  # automatically be cleaned after build. W/e.
-  buildPhase = ''
-    export HOME="$PWD"
-    ${lisp}/bin/sbcl --noinform --script build-asdf-only.lisp
-  '';
+  src = pkgs.lib.cleanSource ./.;
+  lispDependencies = [
+    alexandria
+    arrow-macros
+    inferior-shell
+    trivia
+    trivia-ppcre
+  ];
   installPhase = ''
     mkdir -p "$out/bin"
-    find dist -mindepth 1 -maxdepth 1 -exec cp -Pf {} "$out/bin/" \;
+    cp dist/* "$out/bin/"
   '';
-  dontStrip = true;
 }
