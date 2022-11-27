@@ -7,7 +7,7 @@ with rec {
     rev = "a20de23b925fd8264fd7fad6454652e142fd7f73";
     sha256 = "sha256-8DFJjXG8zqoONA1vXtgeKXy68KdJL5UaXR8NtVMUbx8=";
   };
-  inherit (import gitignoreSrc { inherit (pkgs) lib; }) gitignoreSource;
+  cleanSource = src: (pkgs.callPackage gitignoreSrc {}).gitignoreSource (pkgs.lib.cleanSource src);
   hpkgs = import (
     pkgs.fetchFromGitHub {
       owner = "hraban";
@@ -27,7 +27,7 @@ lispDerivation {
   lispSystem = "git-hly";
   pname = "git-hly";
   version = "0.0.1";
-  src = gitignoreSource ./.;
+  src = cleanSource ./.;
   lispDependencies = [
     alexandria
     arrow-macros
