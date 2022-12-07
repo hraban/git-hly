@@ -8,17 +8,14 @@ with rec {
     sha256 = "sha256-8DFJjXG8zqoONA1vXtgeKXy68KdJL5UaXR8NtVMUbx8=";
   };
   cleanSource = src: (pkgs.callPackage gitignoreSrc {}).gitignoreSource (pkgs.lib.cleanSource src);
-  hpkgs = import (
-    pkgs.fetchFromGitHub {
-      owner = "hraban";
-      repo = "nixpkgs";
-      rev = "1b768e079888cdea9e1ebed635168e1139c98130";
-      sha256 = "sha256-VhVKh0Vd+OtaGNhxv+6ZEyUCC7AalNJ7AQOcBlfbZrY=";
-    }
-  ) {};
-  lispPackagesLite = hpkgs.lispPackagesLite.override {
-    inherit pkgs;
+
+  hPkgsSrc = pkgs.fetchFromGitHub {
+    owner = "hraban";
+    repo = "nixpkgs";
+    rev = "a338dfe8d295f60c59cc43233309ceadb3c3ea2c";
+    sha256 = "cJFG9g6s0i5Om8AWAez7//4URdlezCp6awfS50kkH5o=";
   };
+  inherit (pkgs.callPackage hPkgsSrc {}) lispPackagesLite;
 };
 
 with lispPackagesLite;
