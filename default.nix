@@ -25,6 +25,7 @@ lispDerivation {
   pname = "git-hly";
   version = "0.0.1";
   src = cleanSource ./.;
+  dontPatchShebangs = true;
   lispDependencies = [
     alexandria
     arrow-macros
@@ -32,8 +33,4 @@ lispDerivation {
     trivia
     trivia-ppcre
   ];
-  installPhase = ''
-    mkdir -p "$out/bin"
-    cp dist/* "$out/bin/"
-  '';
 }
