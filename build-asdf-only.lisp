@@ -20,7 +20,7 @@
 (uiop:register-image-dump-hook
  (lambda ()
    (dolist (cmd (git-hly::cmd-names))
-     (uiop:with-current-directory ("./dist/")
+     (uiop:with-current-directory ("./bin/")
        (inferior-shell:run `(ln -sf "git-hly" ,(format NIL "~(git-~A~)" cmd)))))))
 
 ;; Build the binary
