@@ -57,7 +57,7 @@ USER ql
 
 WORKDIR /data
 
-COPY --from=build /app/dist/git-hly /app/git-hly
+COPY --from=build /app/bin/git-hly /app/git-hly
 
 ENTRYPOINT ["/app/git-hly"]
 
