@@ -3,7 +3,7 @@
      :version "0.1"
      :author "Hraban Luyat"
      :build-operation "program-op"
-     :build-pathname "dist/git-hly"
+     :build-pathname "bin/git-hly"
      :entry-point "git-hly:main"
      :depends-on (:alexandria
                   :arrow-macros
