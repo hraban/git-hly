@@ -16,18 +16,13 @@
   (:use #:arrow-macros
         #:cl
         #:git-hly/src/cmd
+        #:git-hly/src/git-utils
         #:git-hly/src/os)
   (:local-nicknames (#:sh #:inferior-shell))
   (:import-from #:trivia)
   (:import-from #:uiop))
 
 (in-package #:git-hly/src/cmds/pullfetch)
-
-(defun current-branch ()
-  "Get current branch name, if any."
-  (trivia:match (sh/ss '(git rev-parse --abbrev-ref "HEAD"))
-    ("HEAD" NIL)
-    (x x)))
 
 (defun remote-tracking (b)
   "Get remote tracking of given branch"
