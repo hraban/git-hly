@@ -1,8 +1,31 @@
-(in-package :git-hly)
+;; Copyright © 2022, 2023  Hraban Luyat
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU Affero General Public License as published
+;; by the Free Software Foundation, version 3 of the License.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU Affero General Public License for more details.
+;;
+;; You should have received a copy of the GNU Affero General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+(defpackage #:git-hly/src/cmds/pullfetch
+  (:use #:arrow-macros
+        #:cl
+        #:git-hly/src/cmd
+        #:git-hly/src/os)
+  (:local-nicknames (#:sh #:inferior-shell))
+  (:import-from #:trivia)
+  (:import-from #:uiop))
+
+(in-package #:git-hly/src/cmds/pullfetch)
 
 (defun current-branch ()
   "Get current branch name, if any."
-  (match (sh/ss '(git rev-parse --abbrev-ref "HEAD"))
+  (trivia:match (sh/ss '(git rev-parse --abbrev-ref "HEAD"))
     ("HEAD" NIL)
     (x x)))
 
@@ -29,17 +52,3 @@
   (handler-case (pullfetch-aux)
     (uiop:subprocess-error (c)
       (uiop:quit (uiop:subprocess-error-code c)))))
-
-;; Copyright © 2022  Hraban Luyat
-;;
-;; This program is free software: you can redistribute it and/or modify
-;; it under the terms of the GNU Affero General Public License as published
-;; by the Free Software Foundation, version 3 of the License.
-;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU Affero General Public License for more details.
-;;
-;; You should have received a copy of the GNU Affero General Public License
-;; along with this program.  If not, see <https://www.gnu.org/licenses/>.

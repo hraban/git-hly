@@ -1,6 +1,26 @@
+;; Copyright © 2022, 2023  Hraban Luyat
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU Affero General Public License as published
+;; by the Free Software Foundation, version 3 of the License.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU Affero General Public License for more details.
+;;
+;; You should have received a copy of the GNU Affero General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 ;; Helper functions to interact with the OS or the outside world.
 
-(in-package :git-hly)
+(defpackage #:git-hly/src/os
+  (:use #:arrow-macros #:cl)
+  (:local-nicknames (#:sh #:inferior-shell))
+  (:import-from #:uiop)
+  (:export #:sh #:sh/ss #:sh/lines #:sh/no-err #:sh/silently))
+
+(in-package :git-hly/src/os)
 
 (defmacro sh (action &rest r)
   "Utility macro for shell actions for optional trace output.
@@ -44,17 +64,3 @@ Return T on success, NIL on failure.
 (defun sh/silently (cmd)
   "Run this command without stdout/err, return T on success, NIL on failure"
   (sh/no-err run/nil cmd))
-
-;; Copyright © 2022  Hraban Luyat
-;;
-;; This program is free software: you can redistribute it and/or modify
-;; it under the terms of the GNU Affero General Public License as published
-;; by the Free Software Foundation, version 3 of the License.
-;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU Affero General Public License for more details.
-;;
-;; You should have received a copy of the GNU Affero General Public License
-;; along with this program.  If not, see <https://www.gnu.org/licenses/>.

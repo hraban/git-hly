@@ -59,9 +59,11 @@
             lispDependencies = [
               alexandria
               arrow-macros
+              asdf
               inferior-shell
               trivia
               trivia-ppcre
+              wild-package-inferred-system
             ];
             dontStrip = true;
             meta = {
