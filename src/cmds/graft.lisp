@@ -16,19 +16,10 @@
   (:use #:arrow-macros
         #:cl
         #:git-hly/src/cmd
+        #:git-hly/src/cmds/children
         #:git-hly/src/os))
 
 (in-package #:git-hly/src/cmds/graft)
-
-(defun get-child-branches (parent)
-  "Get all child branches for this parent ref.
-
-If the parent is itself a branch, include it.
-"
-  (sh/lines `(git branch
-                  --contains ,parent
-                  --no-color
-                  --format "%(refname:lstrip=2)")))
 
 (defun ancestor-p (parent child)
   "T if parent is actually an ancestor of child"
