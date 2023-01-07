@@ -116,12 +116,18 @@ This is your best option, if you have Nix installed:
 nix-build
 #+end_src
 
-The binary and symlinks are available in the =result= directory.
+The binary and symlinks are available in the =result/bin= directory.
 
 I don’t know enough Nix to tell you the proper way to install this system wide. This works though:
 
 #+begin_src shell
-printf 'export PATH="$PATH:%s/result/"\n' "$PWD" >> ~/.bashrc
+nix-env -i -f .
+#+end_src
+
+Or just:
+
+#+begin_src shell
+printf 'export PATH="$PATH:%s/result/bin/"\n' "$PWD" >> ~/.bashrc
 #+end_src
 
 🤷‍♀️
