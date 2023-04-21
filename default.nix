@@ -9,13 +9,12 @@ with rec {
   };
   cleanSource = src: (pkgs.callPackage gitignoreSrc {}).gitignoreSource (pkgs.lib.cleanSource src);
 
-  hPkgsSrc = pkgs.fetchFromGitHub {
+  lispPackagesLite = import (pkgs.fetchFromGitHub {
     owner = "hraban";
-    repo = "nixpkgs";
-    rev = "a338dfe8d295f60c59cc43233309ceadb3c3ea2c";
-    sha256 = "cJFG9g6s0i5Om8AWAez7//4URdlezCp6awfS50kkH5o=";
-  };
-  inherit (pkgs.callPackage hPkgsSrc {}) lispPackagesLite;
+    repo = "cl-nix-lite";
+    rev = "40b368ed386ff3e7739985f6633e0625f8534f2c";
+    sha256 = "sha256-11/0ZTvxrI5PEhzOKUbZj0IAdiMiLpGGSs576LwFZ6w=";
+  }) { inherit pkgs; };
 };
 
 with lispPackagesLite;
@@ -26,6 +25,7 @@ lispDerivation {
   version = "0.0.1";
   src = cleanSource ./.;
   dontPatchShebangs = true;
+  dontStrip = true;
   lispDependencies = [
     alexandria
     arrow-macros
