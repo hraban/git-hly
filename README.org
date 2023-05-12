@@ -110,21 +110,49 @@ Cons:
 
 ** Nix
 
-This is your best option, if you have Nix installed:
+This is your best option, if you have Nix installed.
+
+*** Non-flakes (aka. "channel based")
+
+Old-school Nix:
+
+Install globally:
 
 #+begin_src shell
-nix-build
+nix-env -if https://github.com/hraban/git-hly/archive/master.tar.gz
 #+end_src
 
-The binary and symlinks are available in the =result= directory.
-
-I don’t know enough Nix to tell you the proper way to install this system wide. This works though:
+Or just build it in a temporary directory to play around with it:
 
 #+begin_src shell
-printf 'export PATH="$PATH:%s/result/"\n' "$PWD" >> ~/.bashrc
+nix-build https://github.com/hraban/git-hly/archive/master.tar.gz
 #+end_src
 
-🤷‍♀️
+The binary can be found in =./result/bin/=. Copy it somewhere to your PATH.
+
+*** Flakes
+
+Do you use the hip new Nix Flakes? You can install this package in your profile:
+
+#+begin_src shell
+nix profile install github:hraban/git-hly
+#+end_src
+
+Or you can just run it stand-alone (but it won’t integrate with the top-level =git= CLI):
+
+#+begin_src shell
+nix run github:hraban/git-hly -- ...
+#+end_src
+
+Or you can build it locally and copy the binary out of =./result/bin= to your PATH:
+
+#+begin_src shell
+nix build github:hraban/git-hly
+#+end_src
+
+*** NixOS / nix-darwin / ...
+
+If you use these I’m sure you don’t need my help :)
 
 ** Native
 
