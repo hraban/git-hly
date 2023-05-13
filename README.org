@@ -84,33 +84,10 @@ git pullfetch
 :PROPERTIES:
 :CUSTOM_ID: installation
 :END:
-** Docker
-:PROPERTIES:
-:CUSTOM_ID: docker
-:END:
-
-#+begin_src shell :eval never
-docker run --rm -v "$PWD":/data luyat/git-tools subcommand
-#+end_src
-
-To invoke the =graft= subcommand (which can be directly piped to bash):
-
-#+begin_src shell :eval never
-docker run --rm -v "$PWD":/data luyat/git-tools graft ... | bash
-#+end_src
-
-Pros:
-
-- No installation required.
-
-Cons:
-
-- Slow and annoying, especially on Mac and Windows.
-- Doesn’t integrate with the =git= tool, so you can’t do e.g. =git graft ...=, unless you install a trampoline script.
 
 ** Nix
 
-This is your best option, if you have Nix installed.
+This project is exclusively available through Nix.
 
 *** Non-flakes (aka. "channel based")
 
@@ -156,46 +133,12 @@ If you use these I’m sure you don’t need my help :)
 
 ** Native
 
-If you have the stomach for it, this yields better results than Docker. These instructions are for Mac, but it should be fairly similar on Linux and Windows.
-
-1. Install [[https://www.sbcl.org/][SBCL]]:
-
-   =$ brew install sbcl=
-2. Install [[https://www.quicklisp.org/][Quicklisp]] (follow the full instructions, up to and including =(ql:add-to-init-file)=)
-3. From this directory:
-
-  #+begin_src shell :eval never-export
-  mkdir -p ~/quicklisp/local-projects
-  ln -fs "$PWD/src/" ~/quicklisp/local-projects/git-hly
-  ./ql-install-deps.lisp
-  ./build.lisp
-  printf 'export PATH="$PATH:%s/bin/"\n' "$PWD" >> ~/.bashrc
-  source ~/.bashrc
-  #+end_src
-
-You now have a binary =git-hly= in the =./bin/= directory which you can
-move wherever you want and run, even without Lisp installed.
-
-To recompile the source later, you only need to run =./build.lisp=.
-
-After adding the tool to your path, you can invoke commands as sub commands of the binary, e.g.:
-
-#+begin_src shell :eval never
-git hly graft foo bar
-#+end_src
-
-But you can also directly call them as git subcommands:
-
-#+begin_src shell :eval never
-git graft foo bar
-#+end_src
-
-This uses the git convention that any executable called =git-something= on your path will be picked up by the top-level =git= tool and exposed as =git something=.
+Building this project natively is complicated and very dependent on your local setup. You need a more recent version of ASDF than comes bundled with SBCL. I recommend loading the project up in SLIME, with a new ASDF version pre-loaded. You can compile it to a binary using =(asdf:make "git-hly")=.
 
 * License
 
 git-hly - Hraban’s Git utilities
-Copyright © 2022  Hraban Luyat
+Copyright © 2022, 2023  Hraban Luyat
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
