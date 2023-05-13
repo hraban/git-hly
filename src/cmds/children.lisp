@@ -34,7 +34,21 @@ If the parent is itself a branch, include it.
 (define-cmd children (parent)
   "Get all children of this commit, without the commit itself.
 
-Useful for scripting. Similar to:
+Usage:
+
+    git children REF
+
+Non inclusive, i.e. the output does not include the branch you passed, itself.
+
+Example:
+
+    $ git children master
+    feat/foo-bar
+    feat/quu-zim
+    fix/something
+
+Useful for scripts, when you want to operate on all the children of a
+commit. Similar to:
 
     git branch --contains XXX | grep -v XXX
 
