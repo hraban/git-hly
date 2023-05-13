@@ -55,6 +55,22 @@
               trivia-ppcre
               wild-package-inferred-system
             ];
+            # Override this to to disable the per-child command symlinking
+            symlinkCommands = true;
+            # I’m not sure if this is genius or awful? If I have to ask, it’s
+            # probably awful.
+            postBuild = ''
+# Ideally, I should be able to access overridden args in the derivation itself
+# by passing a callback to lispDerivation, just like stdenv.mkDerivation...
+if [[ $symlinkCommands == "true" ]]; then
+${pkgs.sbcl}/bin/sbcl --script <<EOF | while read cmd ; do (cd bin && ln -s git-hly git-$cmd) ; done
+(require :asdf)
+(asdf:load-system "git-hly")
+(format T "~{~(~A~)~^~%~}~%" (git-hly/src/cmd::cmd-names))
+EOF
+fi
+'';
+            installPhase = "mkdir -p $out; cp -r bin $out/";
             dontStrip = true;
             meta = {
               license = pkgs.lib.licenses.agpl3Only;
