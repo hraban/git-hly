@@ -1,9 +1,8 @@
-name: "CI"
+name: "Test"
 
 on:
   push:
-    branches:
-      - 'master'
+  pull_request:
 
 jobs:
   docker:
@@ -25,5 +24,23 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          push: true
+          # Only push to registry when building from master
+          push: ${{ github.ref == 'refs/heads/master' }}
           tags: luyat/git-tools:latest
+
+  nix:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v20
+      with:
+        nix_path: nixpkgs=channel:nixpkgs-unstable
+    - name: Channel-based Nix
+      run: nix-build
+    - name: Flake
+      run: nix build
