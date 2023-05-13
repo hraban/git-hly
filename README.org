@@ -9,6 +9,24 @@ Lisp utilities.
 
 * Commands
 
+** git hly: Top-level wrapper
+
+To get a list of all subcommands, refer to =git hly=:
+
+#+begin_example
+$ git hly
+No such command: NIL
+
+Valid commands:
+
+- CHILDREN
+- GRAFT
+- PULLFETCH
+
+
+For in-depth help, pass --help to a subcommand.
+#+end_example
+
 ** git children: List all child branches of a commit
 :PROPERTIES:
 :CUSTOM_ID: git-children
