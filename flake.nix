@@ -32,21 +32,11 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, gitignore, cl-nix-lite, ... }:
-    with rec {
-      ignoredPaths = [
-        ./build.lisp
-        ./build-asdf-only.lisp
-        ./ql-install-deps.lisp
-      ];
-    };
     flake-utils.lib.eachDefaultSystem (system:
       with rec {
         pkgs = nixpkgs.legacyPackages.${system};
         lispPackagesLite = import cl-nix-lite { inherit pkgs; };
-        cleanSource = src: pkgs.lib.cleanSourceWith {
-          filter = path: type: (! builtins.elem (/. + path) ignoredPaths);
-          src = pkgs.lib.cleanSource (gitignore.lib.gitignoreSource src);
-        };
+        cleanSource = src: gitignore.lib.gitignoreSource (pkgs.lib.cleanSource src);
       };
       {
         packages = {
