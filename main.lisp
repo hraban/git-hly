@@ -24,7 +24,8 @@
 (in-package #:git-hly/main)
 
 (defun main (&optional argv)
-  "Argv follows buildapp convention: single list containing full arg"
+  "Argv follows buildapp convention: single list containing full argv"
+  ;; This works because argv is never NIL
   (let* ((argv (or argv (uiop:raw-command-line-arguments))))
     (trivia:match (-> argv first file-namestring)
       ("git-hly"
