@@ -20,7 +20,6 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    flake-utils.url = "github:numtide/flake-utils";
     gitignore = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:hercules-ci/gitignore.nix";
@@ -36,7 +35,7 @@
       with rec {
         pkgs = nixpkgs.legacyPackages.${system};
         lispPackagesLite = import cl-nix-lite { inherit pkgs; };
-        cleanSource = src: gitignore.lib.gitignoreSource (pkgs.lib.cleanSource src);
+        cleanSource = src: pkgs.lib.pipe src [ gitignore.lib.gitignoreSource pkgs.lib.cleanSource ];
       };
       {
         packages = {
