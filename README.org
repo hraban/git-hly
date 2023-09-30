@@ -1,7 +1,7 @@
 #+property: header-args   :eval never
 * Git utilities by Hraban Luyat
 
-Lisp utilities.
+Collection of Git utilities that can’t be found in vanilla Git or [[https://magit.vc/][Magit]]:
 
 - [[#git-children][git children]]: list all child branches of a commit
 - [[#git-graft][git graft]]: cut & paste an entire subtree of git branches
