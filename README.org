@@ -3,9 +3,10 @@
 
 Collection of Git utilities that can’t be found in vanilla Git or [[https://magit.vc/][Magit]]:
 
-- [[#git-children][git children]]: list all child branches of a commit
-- [[#git-graft][git graft]]: cut & paste an entire subtree of git branches
-- [[#git-pullfetch][git pullfetch]]: git fetch and pull combo
+- =git children= :: list all child branches of a commit
+- =git graft= :: cut & paste an entire subtree of git branches
+- =git pullfetch= :: git fetch and pull combo
+- =git split= :: split a commit up into 1 commit per file
 
 * Commands
 
