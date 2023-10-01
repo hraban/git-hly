@@ -1,13 +1,12 @@
 {
   "nodes": {
     "cl-nix-lite": {
-      "flake": false,
       "locked": {
-        "lastModified": 1696095290,
-        "narHash": "sha256-Pi6pDKAE8Tnm6uxJlvjhlNF2Ndh70oY+r1LfR/tMFO4=",
+        "lastModified": 1696184943,
+        "narHash": "sha256-33lmD9IAJHzTW93b4BiO8vwHs6+BXdA4wtVsb9i2CvI=",
         "owner": "hraban",
         "repo": "cl-nix-lite",
-        "rev": "51cdea1795247526551774ff77b3ee36f5d24ad9",
+        "rev": "fac0f224cc7d66d701c278d3c17e599cd5d55eea",
         "type": "github"
       },
       "original": {
