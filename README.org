@@ -139,6 +139,11 @@ Usage:
 git pullfetch
 #+end_src
 
+** git split: Split HEAD into one commit per file
+
+Useful for splitting up a convoluted commit as part of a larger rebase workflow.
+
+See [[https://stackoverflow.com/questions/40698651/how-to-split-every-commit-by-file]].
 * Installation
 :PROPERTIES:
 :CUSTOM_ID: installation
