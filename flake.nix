@@ -57,7 +57,7 @@
             postBuild = ''
 # Ideally, I should be able to access overridden args in the derivation itself
 # by passing a callback to lispDerivation, just like stdenv.mkDerivation...
-if [[ $symlinkCommands == "true" ]]; then
+if [[ $symlinkCommands == "1" ]]; then
 ${pkgs.sbcl}/bin/sbcl --script <<EOF | while read cmd ; do (cd bin && ln -s git-hly git-$cmd) ; done
 (require :asdf)
 (asdf:load-system "git-hly")
