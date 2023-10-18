@@ -20,10 +20,10 @@ No such command: NIL
 
 Valid commands:
 
-- CHILDREN
-- GRAFT
-- PULLFETCH
-- SPLIT
+- children
+- graft
+- pullfetch
+- split
 
 
 For in-depth help, pass --help to a subcommand.

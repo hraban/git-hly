@@ -42,7 +42,7 @@
 (defun usage-str ()
   (format NIL "Valid commands:
 
-~{- ~A
+~{- ~(~A~)
 ~}
 
 For in-depth help, pass --help to a subcommand.
