@@ -23,6 +23,7 @@ Valid commands:
 - CHILDREN
 - GRAFT
 - PULLFETCH
+- SPLIT
 
 
 For in-depth help, pass --help to a subcommand.
