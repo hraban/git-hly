@@ -35,4 +35,4 @@
       (sh run `(git add -- ,file))
       (sh run `(sh:pipe (sh:progn (printf "%s: %s\\n\\n" ,rev-short ,file)
                                   (git show #\s "--format=%B" ,rev))
-                        (git commit #\F -))))))
+                        (git commit :no-verify #\F -))))))
