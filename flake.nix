@@ -32,11 +32,12 @@
       with rec {
         pkgs = nixpkgs.legacyPackages.${system}.extend cl-nix-lite.overlays.default;
         cleanSource = src: pkgs.lib.pipe src [ gitignore.lib.gitignoreSource pkgs.lib.cleanSource ];
+        lpp = pkgs.lispPackagesLite;
       };
       {
         packages = {
           # This is for normal people
-          default = with pkgs.lispPackagesLite; lispDerivation {
+          default = with lpp; lispDerivation {
             lispSystem = "git-hly";
             pname = "git-hly";
             version = "0.0.1";
@@ -47,7 +48,7 @@
               asdf
               inferior-shell
               trivia
-              trivia-ppcre
+              lpp."trivia.ppcre"
               wild-package-inferred-system
             ];
             # Override this to to disable the per-child command symlinking
