@@ -25,6 +25,11 @@
       url = "github:hercules-ci/gitignore.nix";
     };
     cl-nix-lite.url = "github:hraban/cl-nix-lite";
+    flake-utils = {
+      url = "flake-utils";
+      inputs.systems.follows = "systems";
+    };
+    systems.url = "systems";
   };
 
   outputs = { self, nixpkgs, flake-utils, gitignore, cl-nix-lite, ... }:
