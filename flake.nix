@@ -36,31 +36,29 @@
     flake-utils.lib.eachDefaultSystem (system:
       with rec {
         pkgs = nixpkgs.legacyPackages.${system}.extend cl-nix-lite.overlays.default;
+        inherit (pkgs) lispPackagesLite;
         cleanSource = src: pkgs.lib.pipe src [ gitignore.lib.gitignoreSource pkgs.lib.cleanSource ];
-        lpp = pkgs.lispPackagesLite;
       };
       {
-        packages = {
-          # This is for normal people
-          default = with lpp; lispDerivation {
-            lispSystem = "git-hly";
-            pname = "git-hly";
-            version = "0.0.1";
-            src = cleanSource ./.;
-            lispDependencies = [
-              alexandria
-              arrow-macros
-              asdf
-              inferior-shell
-              trivia
-              lpp."trivia.ppcre"
-              wild-package-inferred-system
-            ];
-            # Override this to to disable the per-child command symlinking
-            symlinkCommands = true;
-            # I’m not sure if this is genius or awful? If I have to ask, it’s
-            # probably awful.
-            postBuild = ''
+        packages.default = with lispPackagesLite; lispDerivation {
+          lispSystem = "git-hly";
+          pname = "git-hly";
+          version = "0.0.1";
+          src = cleanSource ./.;
+          lispDependencies = [
+            alexandria
+            arrow-macros
+            asdf
+            inferior-shell
+            trivia
+            lispPackagesLite."trivia.ppcre"
+            wild-package-inferred-system
+          ];
+          # Override this to to disable the per-child command symlinking
+          symlinkCommands = true;
+          # I’m not sure if this is genius or awful? If I have to ask, it’s
+          # probably awful.
+          postBuild = ''
 # Ideally, I should be able to access overridden args in the derivation itself
 # by passing a callback to lispDerivation, just like stdenv.mkDerivation...
 if [[ $symlinkCommands == "1" ]]; then
@@ -71,11 +69,10 @@ ${pkgs.sbcl}/bin/sbcl --script <<EOF | while read cmd ; do (cd bin && ln -s git-
 EOF
 fi
 '';
-            installPhase = "mkdir -p $out; cp -r bin $out/";
-            dontStrip = true;
-            meta = {
-              license = pkgs.lib.licenses.agpl3Only;
-            };
+          installPhase = "mkdir -p $out; cp -r bin $out/";
+          dontStrip = true;
+          meta = {
+            license = pkgs.lib.licenses.agpl3Only;
           };
         };
       });
