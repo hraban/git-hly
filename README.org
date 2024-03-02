@@ -153,15 +153,27 @@ See [[https://stackoverflow.com/questions/40698651/how-to-split-every-commit-by-
 
 ** Stand-alone binary
 
+#+begin_quote
+[!TIP]
+This is easiest!
+#+end_quote
 Get a stand-alone precompiled binary for Mac or Linux here:
 
 1. Go to the [[https://github.com/hraban/git-hly/actions?query=branch%3Amaster][Github Actions results page]]
 2. Select the most recent run
 3. Find the binaries at the bottom, under “Artifacts”
+4. Download and unpack to your =PATH= (e.g.: =~/bin= if it’s in your PATH)
+
+Or you can just invoke it directly, like =./git-hly=.
 
 ** Nix
 
-This project is exclusively available through Nix.
+#+begin_quote
+[!NOTE]
+If you don’t know Nix, don’t worry about this. If you do, this is the way to go!
+#+end_quote
+
+This project is available through Nix.
 
 *** Non-flakes (aka. "channel based")
 
@@ -206,6 +218,11 @@ nix build github:hraban/git-hly
 If you use these I’m sure you don’t need my help :)
 
 ** Native
+
+#+begin_quote
+[!WARNING]
+This is hard, I can’t think of why anybody would want to do this. Good luck.
+#+end_quote
 
 Building this project natively is complicated and very dependent on your local setup. You need a more recent version of ASDF than comes bundled with SBCL. I recommend loading the project up in SLIME, with a new ASDF version pre-loaded. You can compile it to a binary using =(asdf:make "git-hly")=.
 
