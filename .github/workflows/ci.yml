@@ -10,9 +10,11 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-latest
-          - macos-latest
-    runs-on: ${{ matrix.os }}
+          - name: linux
+            id: ubuntu-latest
+          - name: macos
+            id: macos-latest
+    runs-on: ${{ matrix.os.id }}
     steps:
     - uses: DeterminateSystems/nix-installer-action@main
       with:
@@ -28,3 +30,8 @@ jobs:
       # This will need to recompile SBCL
     - name: "Flake: build with purged Nix references"
       run: "nix build --print-build-logs .#norefs"
+    - name: "Upload stand-alone binary"
+      uses: actions/upload-artifact@v4
+      with:
+        name: git-hly-${{ matrix.os.name }}-${{ github.sha }}
+        path: result/bin/git-hly
