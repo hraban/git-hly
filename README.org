@@ -10,7 +10,7 @@ Collection of Git utilities that can’t be found in vanilla Git or [[https://ma
 
 * Commands
 
-** git hly: Top-level wrapper
+** =git hly=: Top-level wrapper
 
 To get a list of all subcommands, refer to =git hly=:
 
@@ -29,7 +29,7 @@ Valid commands:
 For in-depth help, pass --help to a subcommand.
 #+end_example
 
-** git children: List all child branches of a commit
+** =git children=: List all child branches of a commit
 :PROPERTIES:
 :CUSTOM_ID: git-children
 :END:
@@ -68,7 +68,7 @@ branch2
 branch3
 #+end_example
 
-** git graft: Cut & paste an entire subtree of git branches
+** =git graft=: Cut & paste an entire subtree of git branches
 :PROPERTIES:
 :CUSTOM_ID: git-graft
 :END:
@@ -128,7 +128,7 @@ Git-graft also prints “undo” commands, commented out. These are not expected
 
 The argument to git-graft, the root, is *inclusive*. This is at odds with git conventions, where you normally specify a commit's “parent”, under which all relevant commits are found. The reason is that sometimes, e.g. the example above, choosing the parent can lead to too many branches being included: you'd get origin/master, and all potential other local branches already ported onto it.
 
-** git pullfetch: Git fetch and git pull combo
+** =git pullfetch=: Git fetch and git pull combo
 :PROPERTIES:
 :CUSTOM_ID: git-pullfetch
 :END:
@@ -141,7 +141,7 @@ Usage:
 git pullfetch
 #+end_src
 
-** git split: Split HEAD into one commit per file
+** =git split=: Split HEAD into one commit per file
 
 Useful for splitting up a convoluted commit as part of a larger rebase workflow.
 
