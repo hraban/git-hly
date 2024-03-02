@@ -32,48 +32,61 @@
     systems.url = "systems";
   };
 
-  outputs = { self, nixpkgs, flake-utils, gitignore, cl-nix-lite, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      with rec {
-        pkgs = nixpkgs.legacyPackages.${system}.extend cl-nix-lite.overlays.default;
-        inherit (pkgs) lispPackagesLite;
-        cleanSource = src: pkgs.lib.pipe src [ gitignore.lib.gitignoreSource pkgs.lib.cleanSource ];
-      };
-      {
-        packages.default = with lispPackagesLite; lispDerivation {
-          lispSystem = "git-hly";
-          pname = "git-hly";
-          version = "0.0.1";
-          src = cleanSource ./.;
-          lispDependencies = [
-            alexandria
-            arrow-macros
-            asdf
-            inferior-shell
-            trivia
-            lispPackagesLite."trivia.ppcre"
-            wild-package-inferred-system
-          ];
-          # Override this to to disable the per-child command symlinking
-          symlinkCommands = true;
-          # I’m not sure if this is genius or awful? If I have to ask, it’s
-          # probably awful.
-          postBuild = ''
+  outputs = { self, nixpkgs, flake-utils, gitignore, cl-nix-lite, ... }: let
+    git-hly = { sbcl, pkgs, lib }: let
+      pkgs' = pkgs.extend cl-nix-lite.overlays.default;
+      cleanSource = src: lib.pipe src [ gitignore.lib.gitignoreSource lib.cleanSource ];
+      inherit (pkgs') lispPackagesLite;
+    in with lispPackagesLite; lispDerivation {
+      lispSystem = "git-hly";
+      pname = "git-hly";
+      version = "0.0.1";
+      src = cleanSource ./.;
+      lispDependencies = [
+        alexandria
+        arrow-macros
+        asdf
+        inferior-shell
+        trivia
+        lispPackagesLite."trivia.ppcre"
+        wild-package-inferred-system
+      ];
+      # Override this to to disable the per-child command symlinking
+      symlinkCommands = true;
+      # I’m not sure if this is genius or awful? If I have to ask, it’s
+      # probably awful.
+      postBuild = ''
 # Ideally, I should be able to access overridden args in the derivation itself
 # by passing a callback to lispDerivation, just like stdenv.mkDerivation...
 if [[ $symlinkCommands == "1" ]]; then
-${pkgs.sbcl}/bin/sbcl --script <<EOF | while read cmd ; do (cd bin && ln -s git-hly git-$cmd) ; done
+${sbcl}/bin/sbcl --script <<EOF | while read cmd ; do (cd bin && ln -s git-hly git-$cmd) ; done
 (require :asdf)
 (asdf:load-system "git-hly")
 (format T "~{~(~A~)~^~%~}~%" (git-hly/src/cmd::cmd-names))
 EOF
 fi
 '';
-          installPhase = "mkdir -p $out; cp -r bin $out/";
-          dontStrip = true;
-          meta = {
-            license = pkgs.lib.licenses.agpl3Only;
-          };
-        };
-      });
+      installPhase = "mkdir -p $out; cp -r bin $out/";
+      dontStrip = true;
+      meta = {
+        license = lib.licenses.agpl3Only;
+      };
+    };
+  in flake-utils.lib.eachDefaultSystem (system:
+    with rec {
+      pkgs = nixpkgs.legacyPackages.${system};
+      sbclNoRefs = pkgs.sbcl.override {
+        bootstrapLisp = pkgs.lib.getExe pkgs.sbcl;
+        purgeNixReferences = true;
+        coreCompression = false;
+      };
+    };
+    {
+      packages = {
+        default = pkgs.callPackage git-hly { };
+        norefs = (pkgs.extend (self: super: {
+          sbcl = sbclNoRefs;
+        })).callPackage git-hly {};
+      };
+    });
 }
