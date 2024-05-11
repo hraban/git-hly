@@ -20,10 +20,6 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    gitignore = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:hercules-ci/gitignore.nix";
-    };
     cl-nix-lite.url = "github:hraban/cl-nix-lite";
     flake-utils = {
       url = "flake-utils";
@@ -32,16 +28,15 @@
     systems.url = "systems";
   };
 
-  outputs = { self, nixpkgs, flake-utils, gitignore, cl-nix-lite, ... }: let
+  outputs = { self, nixpkgs, flake-utils, cl-nix-lite, ... }: let
     git-hly = { sbcl, pkgs, lib }: let
       pkgs' = pkgs.extend cl-nix-lite.overlays.default;
-      cleanSource = src: lib.pipe src [ gitignore.lib.gitignoreSource lib.cleanSource ];
       inherit (pkgs') lispPackagesLite;
     in with lispPackagesLite; lispDerivation {
       lispSystem = "git-hly";
       pname = "git-hly";
       version = "0.0.1";
-      src = cleanSource ./.;
+      src = lib.cleanSource ./.;
       lispDependencies = [
         alexandria
         arrow-macros
