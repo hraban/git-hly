@@ -13,8 +13,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 (asdf:defsystem "git-hly"
-  :defsystem-depends-on ("wild-package-inferred-system")
-  :class "winfer:wild-package-inferred-system"
+  :class :package-inferred-system
   :description "Various git utilities by Hraban"
   :version "0.1"
   :author "Hraban Luyat"

@@ -18,7 +18,10 @@
   (:import-from #:uiop)
   (:import-from #:trivia)
   (:import-from #:trivia.ppcre)
-  (:import-from #:git-hly/src/cmds/*)
+  (:import-from #:git-hly/src/cmds/children)
+  (:import-from #:git-hly/src/cmds/graft)
+  (:import-from #:git-hly/src/cmds/pullfetch)
+  (:import-from #:git-hly/src/cmds/split)
   (:export #:main))
 
 (in-package #:git-hly/main)

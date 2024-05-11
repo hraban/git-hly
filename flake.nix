@@ -44,7 +44,6 @@
         inferior-shell
         trivia
         lispPackagesLite."trivia.ppcre"
-        wild-package-inferred-system
       ];
       # Override this to to disable the per-child command symlinking
       symlinkCommands = true;
