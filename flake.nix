@@ -29,8 +29,14 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, cl-nix-lite, ... }: let
-    git-hly = { sbcl, pkgs, lib }: let
-      pkgs' = pkgs.extend cl-nix-lite.overlays.default;
+    git-hly = { pkgs, lib }: let
+      inherit (pkgs) ecl;
+      pkgs' = pkgs.appendOverlays [
+        cl-nix-lite.overlays.default
+        (pfinal: pprev: {
+          lispPackagesLite = pprev.lispPackagesLiteFor ecl;
+        })
+      ];
       inherit (pkgs') lispPackagesLite;
     in with lispPackagesLite; lispDerivation {
       lispSystem = "git-hly";
@@ -45,19 +51,39 @@
         trivia
         lispPackagesLite."trivia.ppcre"
       ];
+      lispBuildPhase = ''
+        ;; ECL is not a fan of ASDFv3's auto update magic
+        (load "${asdf}/build/asdf.lisp")
+        (let ((sys "git-hly"))
+          (asdf:load-system sys)
+          (asdf:make-build sys
+                           :type :program
+                           :move-here #P"./bin/"
+                           :epilogue-code `(progn
+                                            (,(read-from-string
+                                               (asdf::component-entry-point
+                                                (asdf:find-system sys))))
+                                            (quit))))
+      '';
       # Override this to to disable the per-child command symlinking
       symlinkCommands = true;
       # I’m not sure if this is genius or awful? If I have to ask, it’s
       # probably awful.
-      postBuild = ''
+      postBuild = let
+        namePrinter = pkgs.writeText "print-names.lisp" ''
+          (setf *compile-verbose* NIL)
+          (setf *load-verbose* NIL)
+          (load "${asdf}/build/asdf.lisp")
+          (asdf:load-system "git-hly")
+          (format T "~{~(~A~)~%~}" (git-hly/src/cmd::cmd-names))
+        '';
+      in ''
 # Ideally, I should be able to access overridden args in the derivation itself
 # by passing a callback to lispDerivation, just like stdenv.mkDerivation...
 if [[ $symlinkCommands == "1" ]]; then
-${sbcl}/bin/sbcl --script <<EOF | while read cmd ; do (cd bin && ln -s git-hly git-$cmd) ; done
-(require :asdf)
-(asdf:load-system "git-hly")
-(format T "~{~(~A~)~^~%~}~%" (git-hly/src/cmd::cmd-names))
-EOF
+  ${lib.getExe ecl} --shell ${namePrinter} | while read cmd ; do
+    ln -s git-hly bin/git-$cmd
+  done
 fi
 '';
       installPhase = "mkdir -p $out; cp -r bin $out/";
@@ -69,19 +95,10 @@ fi
   in flake-utils.lib.eachDefaultSystem (system:
     with rec {
       pkgs = nixpkgs.legacyPackages.${system};
-      sbclNoRefs = pkgs.sbcl.overrideAttrs {
-        bootstrapLisp = pkgs.lib.getExe pkgs.sbcl;
-        purgeNixReferences = true;
-        coreCompression = false;
-        doCheck = false;
-      };
     };
     {
       packages = {
         default = pkgs.callPackage git-hly { };
-        norefs = (pkgs.extend (self: super: {
-          sbcl = sbclNoRefs;
-        })).callPackage git-hly {};
       };
     });
 }

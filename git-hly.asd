@@ -20,4 +20,6 @@
   :build-operation "program-op"
   :build-pathname "bin/git-hly"
   :entry-point "git-hly:main"
-  :depends-on ("git-hly/main"))
+  ;; ECL wants an explicit note that ASDF is required, and it must be first in
+  ;; the depends-on list (!)
+  :depends-on ("asdf" "git-hly/main"))
