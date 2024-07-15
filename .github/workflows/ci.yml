@@ -4,8 +4,12 @@ on:
   push:
   pull_request:
 
+permissions:
+  # To create a new release
+  contents: write
+
 jobs:
-  nix:
+  build:
     strategy:
       fail-fast: false
       matrix:
@@ -33,8 +37,31 @@ jobs:
     - name: "Upload stand-alone binary"
       uses: actions/upload-artifact@v4
       with:
-        name: git-hly-${{ matrix.os.name }}-${{ github.sha }}
+        name: git-hly-${{ matrix.os.name }}
         path: result/bin/git-hly
+
+  release:
+    if: "github.ref == 'refs/heads/master'"
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v4
+    - run: |
+        for f in *; do
+          (
+            cd $f
+            chmod +x *
+            tar cjvf $f.tar.bz2 *
+            mv *.bz2 ..
+          )
+        done
+    - uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: latest
+        prerelease: true
+        files: "git-hly*bz2"
 
   nocommit:
     runs-on: ubuntu-latest
