@@ -157,12 +157,9 @@ See [[https://stackoverflow.com/questions/40698651/how-to-split-every-commit-by-
 [!TIP]
 This is easiest!
 #+end_quote
-Get a stand-alone precompiled binary for Mac or Linux here:
 
-1. Go to the [[https://github.com/hraban/git-hly/actions?query=branch%3Amaster][Github Actions results page]]
-2. Select the most recent run
-3. Find the binaries at the bottom, under “Artifacts”
-4. Download and unpack to your =PATH= (e.g.: =~/bin= if it’s in your PATH)
+1. Download the latest release for [[https://github.com/hraban/git-hly/releases/download/latest/git-hly-linux.tar.bz2][Linux]] or [[https://github.com/hraban/git-hly/releases/download/latest/git-hly-macos.tar.bz2][Mac]]
+2. Unpack and place in your =PATH= (e.g.: =/usr/bin=)
 
 Or you can just invoke it directly, like =./git-hly=.
 
