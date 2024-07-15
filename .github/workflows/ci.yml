@@ -35,3 +35,10 @@ jobs:
       with:
         name: git-hly-${{ matrix.os.name }}-${{ github.sha }}
         path: result/bin/git-hly
+
+  nocommit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nobssoftware/nocommit@v2
+        name: nocommit
