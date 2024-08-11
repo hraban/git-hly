@@ -64,16 +64,17 @@ For in-depth help, pass --help to a subcommand.
        (documentation <> 'function)
        (format T "~A: ~A~&" name <>)))
 
-(declaim (ftype (function ((or symbol string) list) function) cmd))
+(declaim (ftype (function ((or symbol string) list) t) cmd))
 (defun cmd (name args)
   "Call the command with these args"
-  (if (member name '("help" "-h" "--help"))
+  (declare (optimize (debug 3)))
+  (if (member name '("help" "-h" "--help") :test #'equal)
       (if args
           (print-help (first args))
           (format T "~A" (usage-str)))
       (if (help-args-p args)
           (print-help name)
           (-> name
-              get-cmd
-              (or (no-such-cmd name))
-              (apply args)))))
+            get-cmd
+            (or (no-such-cmd name))
+            (apply args)))))
