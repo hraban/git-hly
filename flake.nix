@@ -63,6 +63,7 @@ fi
       installPhase = "mkdir -p $out; cp -r bin $out/";
       dontStrip = true;
       meta = {
+        mainProgram = "git-hly";
         license = lib.licenses.agpl3Only;
       };
     };
