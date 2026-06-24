@@ -16,13 +16,15 @@
   description = "Hraban's git tools";
 
   inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     flake-compat = {
-      url = "github:edolstra/flake-compat";
+      url = "github:hraban/flake-compat";
       flake = false;
     };
     cl-nix-lite.url = "github:hraban/cl-nix-lite";
     flake-utils = {
       url = "flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };
     systems.url = "systems";
