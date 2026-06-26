@@ -72,8 +72,9 @@ fi
   in flake-utils.lib.eachDefaultSystem (system:
     with rec {
       pkgs = nixpkgs.legacyPackages.${system};
-      sbclNoRefs = pkgs.sbcl.overrideAttrs {
+      sbclNoRefs = (pkgs.sbcl.override {
         bootstrapLisp = pkgs.lib.getExe pkgs.sbcl;
+      }).overrideAttrs {
         purgeNixReferences = true;
         coreCompression = false;
         doCheck = false;
